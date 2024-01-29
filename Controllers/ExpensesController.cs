@@ -34,4 +34,44 @@ public class ExpensesController : ControllerBase
         var total = 1234;
         return Ok(new { total });
     }
+
+
+    [HttpPost]
+    public async Task<ActionResult<Expense>> PostExpenseItem(Expense expense)
+    {
+        _context.Expenses.Add(expense);
+        await _context.SaveChangesAsync();
+
+    return CreatedAtAction(nameof(GetExpenseItem), new { id = expense.Id }, expense);
+    }
+
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutExpenseItem(int id, Expense Expense)
+    {
+        if (id != Expense.Id)
+        {
+            return BadRequest();
+        }
+
+        _context.Entry(Expense).State = EntityState.Modified;
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteExpenseItem(int id)
+    {
+        var expenseItem = await _context.Expenses.FindAsync(id);
+        if (expenseItem == null)
+        {
+            return NotFound();
+        }
+
+        _context.Expenses.Remove(expenseItem);
+        await _context.SaveChangesAsync();
+
+        return NoContent();
+    }
 }
