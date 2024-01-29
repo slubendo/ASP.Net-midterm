@@ -1,7 +1,6 @@
 using ExpenseTracker.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.OpenApi;
-using ExpenseTracker.Models;
 using ExpenseTracker.Controllers;
 
 
@@ -13,11 +12,12 @@ var PGHOST = Environment.GetEnvironmentVariable("PGHOST");
 var PGDATABASE = Environment.GetEnvironmentVariable("PGDATABASE");
 var PGUSER = Environment.GetEnvironmentVariable("PGUSER");
 var PGPASSWORD = Environment.GetEnvironmentVariable("PGPASSWORD");
+
 var connectionString = $"Host={PGHOST};Database={PGDATABASE};Username={PGUSER};Password={PGPASSWORD}";
 
+Console.WriteLine(connectionString);
 
 var builder = WebApplication.CreateBuilder(args);
-// var services = new ServiceCollection();
 
 builder.Services.AddDbContext<DatabaseContext>(
     opt =>

@@ -25,14 +25,21 @@ public class ExpensesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Expense>> GetExpenseItem(int id)
     {
-        return new Expense { Id = id, Title = "fake expense" };
+        var expenseItem = await _context.Expenses.FindAsync(id);
+
+        if (expenseItem == null)
+        {
+            return NotFound();
+        }
+
+        return expenseItem;
     }
 
     [HttpGet("total")]
     public async Task<IActionResult> GetTotalExpenses()
     {
-        var total = 1234;
-        return Ok(new { total });
+        var total = await _context.Expenses.SumAsync(e => e.Total);
+    return Ok(new { total });
     }
 
 
