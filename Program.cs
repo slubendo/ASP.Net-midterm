@@ -13,6 +13,7 @@ var PGDATABASE = Environment.GetEnvironmentVariable("PGDATABASE");
 var PGUSER = Environment.GetEnvironmentVariable("PGUSER");
 var PGPASSWORD = Environment.GetEnvironmentVariable("PGPASSWORD");
 
+
 var connectionString = $"Host={PGHOST};Database={PGDATABASE};Username={PGUSER};Password={PGPASSWORD}";
 
 Console.WriteLine(connectionString);
