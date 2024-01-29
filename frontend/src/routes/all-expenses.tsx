@@ -7,9 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { fetchAllExpenses } from "@/network";
 
-import { formatCurrency } from "@/lib/utils";
-
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/all-expenses")({
@@ -19,50 +19,46 @@ export const Route = createFileRoute("/all-expenses")({
 type Expense = {
   id: number;
   title: string;
-  amount: number;
+  total: number;
 };
 
-const fakeExpenses: Expense[] = [
-  {
-    id: 1,
-    title: "Groceries",
-    amount: 1000,
-  },
-  {
-    id: 2,
-    title: "Gas",
-    amount: 2000,
-  },
-  {
-    id: 3,
-    title: "Rent",
-    amount: 3000,
-  },
-];
 
 function AllExpenses() {
+
+  const { isPending, error, data } = useQuery({ queryKey: ['getTotal'], queryFn: fetchAllExpenses })
+  const expenses: Expense[] = data;
+  console.log(data)
+
   return (
     <>
-      <h1 className="text-2xl">All Expenses</h1>
-      <Table>
-        <TableCaption>A list of your recent expenses.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Invoice</TableHead>
-            <TableHead className="text-right">Amount</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {fakeExpenses.map((expense) => (
-            <TableRow key={expense.id}>
-              <TableCell className="font-medium">{expense.title}</TableCell>
-              <TableCell className="text-right">
-                {formatCurrency(expense.amount)}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      {isPending ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>Error: try again later</p>
+      ) : (
+        <>
+          <h1 className="text-2xl">All Expenses</h1>
+          <Table>
+            <TableCaption>A list of your recent expenses.</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Invoice</TableHead>
+                <TableHead className="text-right">Amount</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {expenses.map((expense) => (
+                <TableRow key={expense.id}>
+                  <TableCell className="font-medium">{expense.title}</TableCell>
+                  <TableCell className="text-right">
+                    {expense.total}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </>
+      )}
     </>
   );
 }

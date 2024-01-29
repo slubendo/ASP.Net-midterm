@@ -48,9 +48,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
-// app.MapFallbackToFile("index.html");
+app.MapFallbackToFile("index.html");
 
-app.MapGet("/", () => "Hello World!");
+// app.MapGet("/", () => "Hello World!");
 app.MapControllers();
 
 app.Run();
