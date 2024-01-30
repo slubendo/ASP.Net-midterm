@@ -2,11 +2,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useNavigate, createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useForm } from "@tanstack/react-form";
-import { zodValidator } from "@tanstack/zod-form-adapter";
 import { z } from "zod";
+import { zodValidator } from "@tanstack/zod-form-adapter";
 
 
 
@@ -116,7 +115,7 @@ function NewExpensePage() {
 
               <form.Subscribe
                 selector={(state) => [state.canSubmit, state.isSubmitting]}
-                children={([canSubmit, isSubmitting]: [boolean, boolean]) => (
+                children={([canSubmit, isSubmitting]) => (
                   <Button
                     className="bg-blue-500 text-white px-4 py-2 rounded"
                     type="submit"
